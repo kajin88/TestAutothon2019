@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutothon.Library", "TestAutothon.Library\TestAutothon.Library.csproj", "{FBBEBAC2-2B37-451F-AFC5-3A95BEE0256A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBBEBAC2-2B37-451F-AFC5-3A95BEE0256A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBBEBAC2-2B37-451F-AFC5-3A95BEE0256A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBBEBAC2-2B37-451F-AFC5-3A95BEE0256A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBBEBAC2-2B37-451F-AFC5-3A95BEE0256A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0602F266-3EAC-4407-BBB1-292EF4A8B770}
+	EndGlobalSection
+EndGlobal
