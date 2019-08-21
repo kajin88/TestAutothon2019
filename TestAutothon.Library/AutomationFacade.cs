@@ -1,9 +1,5 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TestAutothon.Library.Models;
 using TestAutothon.Library.Pages;
 
 namespace TestAutothon.Library
@@ -36,13 +32,24 @@ namespace TestAutothon.Library
         }
 
 
-        public void GoToChannel()
+        public void GoToChannel(string outputDirectory)
         {
+            VideoData data = new VideoData()
+            {
+                Team = "Siemens Team 2",
+                Video = videoTitle
+            };
+
             this.YPage
                 .Navigate()
                 .Search()
+                .NavigateToChannel()
+                .GoToVideosTab()
                 .GoToVideo();
 
+
+            data.ScreenshotPath = $"{outputDirectory}\\{AutomationUtility.ExcludeSymbols(videoTitle)}.jpg";
+            this.YPage.GetScreenshot(data.ScreenshotPath);
         }
 
     }

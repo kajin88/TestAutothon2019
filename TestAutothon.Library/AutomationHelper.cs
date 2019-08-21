@@ -9,7 +9,7 @@ namespace TestAutothon.Library
 {
     public class AutomationHelper
     {
-        public void Run(string url, AutomationBrowserType browserType)
+        public void Run(string url, AutomationBrowserType browserType, string outputDirectory)
         {
             string title = AutomationUtility.GetVideoTitleFromAPI(url);
 
@@ -17,7 +17,7 @@ namespace TestAutothon.Library
             youtubeDriver.StartBrowser(browserType, 3);
 
             AutomationFacade facade = new AutomationFacade(youtubeDriver.Browser, title);
-            facade.GoToChannel();
+            facade.GoToChannel(outputDirectory);
         }
     }
 }

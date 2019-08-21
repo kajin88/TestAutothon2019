@@ -14,6 +14,8 @@ namespace TestAutothon.Library.Pages
         private readonly string searchKeyword = "step-inforum";
         private readonly string videoTitle;
 
+        private IWebElement _videoElement;
+        private bool _videoExists = true;
 
         public YoutubePage(IWebDriver _driver, string _videoTitle)
         {
@@ -40,14 +42,44 @@ namespace TestAutothon.Library.Pages
 
         public IWebElement VideoElement
         {
-            get {
-                return FindVideo(videoTitle);
+            get
+            {
+                if (_videoElement == null && _videoExists)
+                {
+                    try
+                    {
+                        _videoElement = FindVideo(videoTitle);
+                    }
+                    catch(Exception)
+                    {
+                        _videoExists = false;
+                        _videoElement = null;                        
+                    }
+                }
+
+                return _videoElement;
+            }
+        }
+
+
+        public IWebElement VideosTabElement
+        {
+            get
+            {
+                return this.driver.FindElement(By.XPath("//body//paper-tab[1]"));
             }
         }
 
         public YoutubePage Navigate()
         {
             this.driver.Navigate().GoToUrl(this.url);
+            this.driver.WaitForPageLoad();
+            return this;
+        }
+
+        public YoutubePage NavigateToChannel()
+        {
+            this.ChannelElement.Click();
             this.driver.WaitForPageLoad();
             return this;
         }
@@ -70,33 +102,47 @@ namespace TestAutothon.Library.Pages
         {
             IWebElement foundElement = null;
 
-            while (true)
+            try
             {
-                try
+                while (true)
                 {
-                    foundElement = driver.FindElement(By.XPath($"//a[contains(@id,'video-title') and contains(@title,'{videoTitle}')]"));
-                    break;
+                    try
+                    {
+                        foundElement = driver.FindElement(By.XPath($"//a[contains(@id,'video-title') and contains(@title,'{videoTitle}')]"));
+                        break;
+                    }
+                    catch (NoSuchElementException)
+                    {
+                        ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0,500)");
+                    }
                 }
-                catch (NoSuchElementException)
-                {
-                    ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0,500)");
-                }
-            }
 
-            if (foundElement != null)
+                if (foundElement != null)
+                {
+                    String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+                                                + "var elementTop = arguments[0].getBoundingClientRect().top;"
+                                                + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
+                    ((IJavaScriptExecutor)driver).ExecuteScript(scrollElementIntoMiddle, foundElement);
+                }
+
+                return foundElement;
+            }
+            catch (Exception)
             {
-                String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
-                                            + "var elementTop = arguments[0].getBoundingClientRect().top;"
-                                            + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
-                ((IJavaScriptExecutor)driver).ExecuteScript(scrollElementIntoMiddle, foundElement);
+                return null;
             }
-
-            return foundElement;
         }
 
         public YoutubePage GoToVideo()
         {
-            VideoElement.Click();
+            if (VideoElement != null)
+                VideoElement.Click();
+            return this;
+        }
+
+        public YoutubePage GoToVideosTab()
+        {
+            VideosTabElement.Click();
             return this;
         }
     }

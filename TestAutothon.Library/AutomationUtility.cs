@@ -23,7 +23,7 @@ namespace TestAutothon.Library
 
         public static string ExcludeSymbols(string src) => new string(src.Where(char.IsLetterOrDigit).ToArray());
 
-        public static string GetOutputDirectory(string directory = "Output")
+        public static string GetOutputDirectory(string directory = "Results")
         {
             if (!Directory.Exists(directory))
             {

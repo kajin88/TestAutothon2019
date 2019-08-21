@@ -21,9 +21,10 @@ namespace TestAutothon
             //}
 
             string api = "http://54.169.34.162:5252/video";
+            string resultFolder = AutomationUtility.GetOutputDirectory();
 
             AutomationHelper helper = new AutomationHelper();
-            helper.Run(api, AutomationBrowserType.PCChromeBrowser);
+            helper.Run(api, AutomationBrowserType.PCChromeBrowser, resultFolder);
         }
 
         private static void ParseArgument()
