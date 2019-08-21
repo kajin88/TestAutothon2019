@@ -20,7 +20,7 @@ namespace TestAutothon
             //    }
             //}
 
-            string api = "http://54.169.34.162:5252/video";
+            string api = "http://54.169.34.162:5252";
             string resultFolder = AutomationUtility.GetOutputDirectory();
 
             AutomationHelper helper = new AutomationHelper();

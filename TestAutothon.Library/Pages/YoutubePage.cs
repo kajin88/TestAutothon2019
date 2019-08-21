@@ -11,10 +11,12 @@ namespace TestAutothon.Library.Pages
     {
         private readonly IWebDriver driver;
         private readonly string url = @"https://www.youtube.com";
+            
         private readonly string searchKeyword = "step-inforum";
         private readonly string videoTitle;
 
         private IWebElement _videoElement;
+        private IWebElement _videosTabElement;
         private bool _videoExists = true;
 
         public YoutubePage(IWebDriver _driver, string _videoTitle)
@@ -36,7 +38,7 @@ namespace TestAutothon.Library.Pages
         {
             get
             {
-                return this.driver.FindElement(By.XPath("//SPAN[@class='style-scope ytd-channel-renderer'][text()='STeP-IN Forum']"));
+                return this.driver.FindElement(By.XPath("//SPAN[@class='style-scope ytd-channel-renderer'][text()='STeP-IN Forum']"), 180);
             }
         }
 
@@ -66,7 +68,12 @@ namespace TestAutothon.Library.Pages
         {
             get
             {
-                return this.driver.FindElement(By.XPath("//body//paper-tab[1]"));
+                if(_videosTabElement == null )
+                {
+                    _videosTabElement = GetVideosTab();
+                }
+
+                return _videosTabElement;
             }
         }
 
@@ -80,7 +87,6 @@ namespace TestAutothon.Library.Pages
         public YoutubePage NavigateToChannel()
         {
             this.ChannelElement.Click();
-            this.driver.WaitForPageLoad();
             return this;
         }
 
@@ -142,8 +148,27 @@ namespace TestAutothon.Library.Pages
 
         public YoutubePage GoToVideosTab()
         {
-            VideosTabElement.Click();
+            if(VideosTabElement != null)
+                VideosTabElement.Click();
             return this;
+        }
+
+        private IWebElement GetVideosTab()
+        {
+
+            var elements = this.driver.FindElements(By.XPath("//div[contains(@class, 'tab-content style-scope paper-tab')]"));
+            if(elements != null && elements.Any())
+            {
+                foreach(var ele in elements)
+                {
+                    if(!string.IsNullOrEmpty(ele.Text) && ele.Text.Equals("Videos", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return ele;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

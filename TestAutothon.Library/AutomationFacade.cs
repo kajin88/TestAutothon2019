@@ -32,7 +32,7 @@ namespace TestAutothon.Library
         }
 
 
-        public void GoToChannel(string outputDirectory)
+        public VideoData GoToChannel(string outputDirectory)
         {
             VideoData data = new VideoData()
             {
@@ -47,9 +47,10 @@ namespace TestAutothon.Library
                 .GoToVideosTab()
                 .GoToVideo();
 
-
             data.ScreenshotPath = $"{outputDirectory}\\{AutomationUtility.ExcludeSymbols(videoTitle)}.jpg";
             this.YPage.GetScreenshot(data.ScreenshotPath);
+
+            return data;
         }
 
     }

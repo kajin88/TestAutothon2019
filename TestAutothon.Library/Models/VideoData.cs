@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestAutothon.Library.Models
 {
-    class VideoData: VideoResult
+    public class VideoData: VideoResult
     {
         public string ScreenshotPath { get; set; }
     }

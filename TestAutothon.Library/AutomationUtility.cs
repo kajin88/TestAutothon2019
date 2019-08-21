@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,12 +45,8 @@ namespace TestAutothon.Library
         {
             try
             {
-                using (var writer = new StreamWriter(filePath))
-                {
-                    var serializer = new XmlSerializer(typeof(T));
-                    serializer.Serialize(writer, data);
-                    writer.Flush();
-                }
+                string json = JsonConvert.SerializeObject(data);
+                File.WriteAllText(filePath, json);
             }
             catch (Exception ex)
             {
@@ -71,19 +68,19 @@ namespace TestAutothon.Library
             return default(T);
         }
 
-        public static string GetVideoTitleFromAPI(string url)
+        public static string GetFromAPI(string url)
         {
-            string title = string.Empty;
+            string result = string.Empty;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream))
             {
-                title = reader.ReadToEnd();
+                result = reader.ReadToEnd();
             }
 
-            return title;
+            return result;
         }
 
         public static string UploadFile(string url, string filePath)
