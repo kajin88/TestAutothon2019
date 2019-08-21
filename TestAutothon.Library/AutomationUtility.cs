@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -68,6 +69,21 @@ namespace TestAutothon.Library
             }
 
             return default(T);
+        }
+
+        public static string GetVideoTitleFromAPI(string url)
+        {
+            string title = string.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                title = reader.ReadToEnd();
+            }
+
+            return title;
         }
 
         private static int ComputeLevenshteinDistance(string source, string target)

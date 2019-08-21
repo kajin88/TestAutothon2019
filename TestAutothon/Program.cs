@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestAutothon.Library;
+using TestAutothon.Library.Models.Enums;
 
 namespace TestAutothon
 {
@@ -10,13 +12,18 @@ namespace TestAutothon
     {
         static void Main(string[] args)
         {
-            if(args != null && args.Length > 0)
-            {
-                foreach(var arg in args)
-                {
+            //if(args != null && args.Length > 0)
+            //{
+            //    foreach(var arg in args)
+            //    {
 
-                }
-            }
+            //    }
+            //}
+
+            string api = "http://54.169.34.162:5252/video";
+
+            AutomationHelper helper = new AutomationHelper();
+            helper.Run(api, AutomationBrowserType.PCChromeBrowser);
         }
 
         private static void ParseArgument()

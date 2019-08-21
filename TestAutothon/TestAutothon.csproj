@@ -52,5 +52,11 @@
   <ItemGroup>
     <Content Include="Report Template\Template.html" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestAutothon.Library\TestAutothon.Library.csproj">
+      <Project>{fbbebac2-2b37-451f-afc5-3a95bee0256a}</Project>
+      <Name>TestAutothon.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
