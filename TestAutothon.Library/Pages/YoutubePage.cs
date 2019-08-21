@@ -120,6 +120,7 @@ namespace TestAutothon.Library.Pages
                     catch (NoSuchElementException)
                     {
                         ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0,500)");
+                        System.Threading.Thread.Sleep(5000);
                     }
                 }
 
@@ -139,15 +140,24 @@ namespace TestAutothon.Library.Pages
             }
         }
 
-        public YoutubePage GoToVideo()
+        public IWebElement GoToVideo()
         {
-            if (VideoElement != null)
-                VideoElement.Click();
+            return VideoElement;
+        }
+
+        public YoutubePage ClickOnVideo(IWebElement video)
+        {
+            if (video != null)
+                video.Click();
+
+            System.Threading.Thread.Sleep(5000);
+
             return this;
         }
 
         public YoutubePage GoToVideosTab()
         {
+            System.Threading.Thread.Sleep(5000);
             if(VideosTabElement != null)
                 VideosTabElement.Click();
             return this;

@@ -40,7 +40,7 @@ namespace TestAutothon.Library
                 Video = videoTitle
             };
 
-            this.YPage
+            var element = this.YPage
                 .Navigate()
                 .Search()
                 .NavigateToChannel()
@@ -49,6 +49,8 @@ namespace TestAutothon.Library
 
             data.ScreenshotPath = $"{outputDirectory}\\{AutomationUtility.ExcludeSymbols(videoTitle)}.jpg";
             this.YPage.GetScreenshot(data.ScreenshotPath);
+
+            this.yPage.ClickOnVideo(element);
 
             data.UpcomingVideos = this.yPage
                                     .SetVideoQuality()
