@@ -50,6 +50,10 @@ namespace TestAutothon.Library
             data.ScreenshotPath = $"{outputDirectory}\\{AutomationUtility.ExcludeSymbols(videoTitle)}.jpg";
             this.YPage.GetScreenshot(data.ScreenshotPath);
 
+            data.UpcomingVideos = this.yPage
+                                    .SetVideoQuality()
+                                    .GetUpcomingVideoTitles();
+
             return data;
         }
 

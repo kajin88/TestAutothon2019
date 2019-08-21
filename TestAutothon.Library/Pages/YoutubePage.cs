@@ -170,5 +170,38 @@ namespace TestAutothon.Library.Pages
 
             return null;
         }
+
+        public YoutubePage SetVideoQuality(string quality = "medium")
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript($"document.getElementById('movie_player').setPlaybackQualityRange('{quality}');");
+            return this;
+        }
+
+        public List<string> GetUpcomingVideoTitles()
+        {
+            List<string> upcomingVideoTitles = new List<string>();
+            ICollection<IWebElement> upcomingVideoElements = null;
+            int oldCount = 0;
+            while (true)
+            {
+                upcomingVideoElements = driver.FindElements(By.XPath("//div[@id='items']//span[@id='video-title']"));
+                if (upcomingVideoElements != null && oldCount != upcomingVideoElements.Count)
+                {
+                    oldCount = upcomingVideoElements.Count;
+                    ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0,document.scrollingElement.scrollHeight)");
+                    System.Threading.Thread.Sleep(3000);
+                }
+                else
+                    break;
+
+            }
+
+            foreach (var element in upcomingVideoElements)
+            {
+                upcomingVideoTitles.Add(element.GetAttribute("title"));
+            }
+
+            return upcomingVideoTitles;
+        }
     }
 }
