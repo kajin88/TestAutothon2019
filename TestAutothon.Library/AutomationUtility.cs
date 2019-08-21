@@ -86,6 +86,19 @@ namespace TestAutothon.Library
             return title;
         }
 
+        public static string UploadFile(string url, string filePath)
+        {
+            string response = null;
+            WebClient client = new WebClient();            
+            byte[] rawResponse = client.UploadFile(url, filePath);
+            if(rawResponse != null)
+            {
+                response = System.Text.Encoding.ASCII.GetString(rawResponse);
+            }
+
+            return response;
+        }
+
         private static int ComputeLevenshteinDistance(string source, string target)
         {
             if ((source == null) || (target == null)) return 0;

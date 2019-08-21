@@ -51,5 +51,11 @@ namespace TestAutothon.Library.Pages
             this.SearchBox.Submit();
             return this;
         }
+
+        public void GetScreenshot(string path)
+        {
+            ITakesScreenshot screenshot = (ITakesScreenshot)this.driver;
+            screenshot.GetScreenshot().SaveAsFile(path);
+        }
     }
 }
