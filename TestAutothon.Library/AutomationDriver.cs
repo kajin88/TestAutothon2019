@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestAutothon
+{
+    public class AutomationDriver
+    {
+        private WebDriverWait browserWait;
+
+        private IWebDriver browser;
+
+        public IWebDriver Browser
+        {
+            get
+            {
+                if (browser == null)
+                {
+                    throw new NullReferenceException("The WebDriver browser instance was not initialized. You should first call the method Start.");
+                }
+                return browser;
+            }
+            private set
+            {
+                browser = value;
+            }
+        }
+
+        public WebDriverWait BrowserWait
+        {
+            get
+            {
+                if (browserWait == null || browser == null)
+                {
+                    throw new NullReferenceException("The WebDriver browser wait instance was not initialized. You should first call the method Start.");
+                }
+                return browserWait;
+            }
+            private set
+            {
+                browserWait = value;
+            }
+        }
+
+        public void StartBrowser(AutomationBrowserType browserType = AutomationBrowserType.PCChromeBrowser, int defaultTimeOut = 1)
+        {
+            switch (browserType)
+            {
+                case AutomationBrowserType.PCChromeBrowser:
+                    this.Browser = GetPCChromeDriver();
+                    break;
+                case AutomationBrowserType.PCHeadlessChromeBrowser:
+                    this.Browser = GetPCHeadlessChromeDriver();
+                    break;
+                case AutomationBrowserType.MobileChromeBrowser:
+                    this.Browser = GetMobileChromeDriver();
+                    break;
+                default:
+                    break;
+            }
+
+            BrowserWait = new WebDriverWait(this.Browser, TimeSpan.FromMinutes(defaultTimeOut));
+        }
+
+        public void StopBrowser()
+        {
+            this.Browser.Quit();
+            this.Browser = null;
+            this.BrowserWait = null;
+        }
+
+        private IWebDriver GetPCChromeDriver()
+        {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddArgument("start-maximized");
+            return new ChromeDriver(chromeOptions);
+        }
+
+        private IWebDriver GetPCHeadlessChromeDriver()
+        {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddArgument("start-maximized");
+            chromeOptions.AddArgument("headless");
+            return new ChromeDriver(chromeOptions);
+        }
+
+        private IWebDriver GetMobileChromeDriver()
+        {
+            DesiredCapabilities testCapabilities = new DesiredCapabilities();
+            testCapabilities.SetCapability(CapabilityType.BrowserName, "Chrome");
+            testCapabilities.SetCapability("platformName", "Android");
+            testCapabilities.SetCapability("deviceName", "Moto Z Play");
+            return new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), testCapabilities, TimeSpan.FromSeconds(180));
+        }
+    }
+}
