@@ -12,11 +12,13 @@ namespace TestAutothon.Library.Pages
         private readonly IWebDriver driver;
         private readonly string url = @"https://www.youtube.com";
         private readonly string searchKeyword = "step-inforum";
+        private readonly string videoTitle;
 
 
-        public YoutubePage(IWebDriver _driver)
+        public YoutubePage(IWebDriver _driver, string _videoTitle)
         {
             this.driver = _driver;
+            this.videoTitle = _videoTitle;
         }
 
 
@@ -36,6 +38,12 @@ namespace TestAutothon.Library.Pages
             }
         }
 
+        public IWebElement VideoElement
+        {
+            get {
+                return FindVideo(videoTitle);
+            }
+        }
 
         public YoutubePage Navigate()
         {
@@ -56,6 +64,40 @@ namespace TestAutothon.Library.Pages
         {
             ITakesScreenshot screenshot = (ITakesScreenshot)this.driver;
             screenshot.GetScreenshot().SaveAsFile(path);
+        }
+
+        private IWebElement FindVideo(string videoTitle)
+        {
+            IWebElement foundElement = null;
+
+            while (true)
+            {
+                try
+                {
+                    foundElement = driver.FindElement(By.XPath($"//a[contains(@id,'video-title') and contains(@title,'{videoTitle}')]"));
+                    break;
+                }
+                catch (NoSuchElementException)
+                {
+                    ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0,500)");
+                }
+            }
+
+            if (foundElement != null)
+            {
+                String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+                                            + "var elementTop = arguments[0].getBoundingClientRect().top;"
+                                            + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
+                ((IJavaScriptExecutor)driver).ExecuteScript(scrollElementIntoMiddle, foundElement);
+            }
+
+            return foundElement;
+        }
+
+        public YoutubePage GoToVideo()
+        {
+            VideoElement.Click();
+            return this;
         }
     }
 }

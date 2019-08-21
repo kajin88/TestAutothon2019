@@ -16,7 +16,7 @@ namespace TestAutothon.Library
             var youtubeDriver = new AutomationDriver();
             youtubeDriver.StartBrowser(browserType, 3);
 
-            AutomationFacade facade = new AutomationFacade(youtubeDriver.Browser);
+            AutomationFacade facade = new AutomationFacade(youtubeDriver.Browser, title);
             facade.GoToChannel();
         }
     }

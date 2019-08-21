@@ -13,11 +13,13 @@ namespace TestAutothon.Library
         private readonly IWebDriver driver;
         private readonly int timeOutInSeconds;
         private YoutubePage yPage;
+        private string videoTitle;
 
-        public AutomationFacade(IWebDriver _driver, int timeOutInSeconds = 30)
+        public AutomationFacade(IWebDriver _driver, string _videoTitle, int timeOutInSeconds = 30)
         {
             this.driver = _driver;
             this.timeOutInSeconds = timeOutInSeconds;
+            this.videoTitle = _videoTitle;
         }
 
         public YoutubePage YPage
@@ -26,7 +28,7 @@ namespace TestAutothon.Library
             {
                 if (yPage == null)
                 {
-                    yPage = new YoutubePage(this.driver);
+                    yPage = new YoutubePage(driver, videoTitle);
                 }
 
                 return yPage;
@@ -38,7 +40,9 @@ namespace TestAutothon.Library
         {
             this.YPage
                 .Navigate()
-                .Search();
+                .Search()
+                .GoToVideo();
+
         }
 
     }
