@@ -56,6 +56,7 @@
     <Compile Include="AutomationUtility.cs" />
     <Compile Include="Models\Enums\AutomationBrowserType.cs" />
     <Compile Include="Models\Enums\ReportElementType.cs" />
+    <Compile Include="Models\VideoData.cs" />
     <Compile Include="Models\VideoResult.cs" />
     <Compile Include="Pages\YoutubePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
