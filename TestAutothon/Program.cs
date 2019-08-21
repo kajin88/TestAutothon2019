@@ -10,6 +10,18 @@ namespace TestAutothon
     {
         static void Main(string[] args)
         {
+            if(args != null && args.Length > 0)
+            {
+                foreach(var arg in args)
+                {
+
+                }
+            }
+        }
+
+        private static void ParseArgument()
+        {
+
         }
     }
 }
